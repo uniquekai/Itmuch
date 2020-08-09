@@ -10,7 +10,7 @@ spring:
     username: root
     password: zxc123..
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/content_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://47.114.134.189:3306/content_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
@@ -33,6 +33,16 @@ spring:
       transport:
         # 为内容中心整合sentinel控制台
         dashboard: localhost:8080
+    #springcloudstream消息编程模型
+    stream:
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+      bindings:
+        output:
+          destination: stream-test-topic
+        my-output:
+          destination: stream-my-topic
   application:
     #服务名称，尽量用中划线 -
     name: content-center
@@ -45,6 +55,8 @@ logging:
     com.itmuch: debug
     # feign的日志级别是建立在feign的接口的日志级别是debug的基础上，如果为其他级别，则什么都不会打印
     com.itmuch.contentcenter.configuration.UserCenterFeignConfiguration: debug
+    # nacos 发送心跳日志为info 如果不想在控制台一直输入心跳日志则把日志改为error
+    com.alibaba.nacos: error
 
 # 配置属性方式细粒度的自定义feign的日志级别
 feign:

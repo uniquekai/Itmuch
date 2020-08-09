@@ -2,13 +2,15 @@ package com.itmuch.setvice.usercontentservice;
 
 
 import cn.hutool.core.util.NetUtil;
+import com.itmuch.setvice.usercontentservice.rockermq.MySink;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Sink;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Slf4j
@@ -17,9 +19,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication(scanBasePackages = "com.itmuch")
 @EnableFeignClients("com.itmuch")
 @EnableSwagger2
+@EnableBinding({Sink.class, MySink.class})
 public class ItmuchUsercontentServiceApplication {
     public static void main(String[] args) {
-//        SpringApplication.run(ItmuchUsercontentServiceApplication.class, args);
         int port = 8180;
         int maxPort = port + 20;
         while (!NetUtil.isUsableLocalPort(port)) {

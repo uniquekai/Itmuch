@@ -1,24 +1,21 @@
 package com.itmuch.service.contentcenter.controller;
 
 
-import com.alibaba.csp.sentinel.Entry;
-import com.alibaba.csp.sentinel.SphU;
-import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.alibaba.csp.sentinel.context.ContextUtil;
-import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.itmuch.api.contentcenterapi.feignclient.ShareFeignClient;
 import com.itmuch.api.contentcenterapi.model.returnf.ShareInfoReturnModel;
 import com.itmuch.common.mybatisplus.user.entity.User;
 import com.itmuch.core.config.sentinel.BlockHandlerClass;
 import com.itmuch.service.contentcenter.service.ShareService;
-import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -98,5 +95,42 @@ public class ShareController implements ShareFeignClient {
                         "http://user-center/users/a/{userid}",
                         User.class,userid);
     }
-
+    @Autowired
+    private Source source;
+    /**
+     * 功能描述: TODO:<测试springcloud stream自带的消息生产接口>
+     * @Param: []
+     * @Return: java.lang.String
+     * @Author: Uniquek
+     * @Date: 2020/8/9 4:24 下午
+     */
+    @GetMapping("/test-stream")
+    public String testStream(){
+        this.source.output()
+                .send(
+                        MessageBuilder
+                        .withPayload("消息体")
+                        .build()
+                );
+        return "success";
+    }
+    @Autowired
+    private MySource mySource;
+    /**
+     * 功能描述: TODO:<测试自定义消息生产接口>
+     * @Param: []
+     * @Return: java.lang.String
+     * @Author: Uniquek
+     * @Date: 2020/8/9 5:30 下午
+     */
+    @GetMapping("/test-my-stream")
+    public String testMyStream(){
+        this.mySource.output()
+                .send(
+                        MessageBuilder
+                                .withPayload("测试自定义消息生产接口")
+                                .build()
+                );
+        return "success";
+    }
 }
