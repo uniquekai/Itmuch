@@ -1,0 +1,21 @@
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  #  设置数据库信息
+  datasource:
+    username: root
+    password: zxc123..
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
+  jackson:
+    time-zone: GMT+8
+  session:
+    store-type: none
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+

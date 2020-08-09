@@ -1,0 +1,62 @@
+#设置编码格式
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  #  设置数据库信息
+  datasource:
+    username: root
+    password: zxc123..
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  session:
+    store-type: none
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  # spring cloud Alibaba
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        cluster-name: BJ
+    sentinel:
+      filter:
+        # 关闭掉对springMVC端点的保护。
+        enabled: false
+      transport:
+        # 为内容中心整合sentinel控制台
+        dashboard: localhost:8080
+  application:
+    name: user-center
+#  加入此配置可以使多个feignclient使用同一个name
+  main:
+    allow-bean-definition-overriding: true
+logging:
+  level:
+    #springboot设置日志级别
+    com.itmuch: debug
+    # feign的日志级别是建立在feign的接口的日志级别是debug的基础上，如果为其他级别，则什么都不会打印
+    com.itmuch.contentcenter.configuration.UserCenterFeignConfiguration: debug
+# 配置属性方式细粒度的自定义feign的日志级别
+feign:
+  client:
+    config:
+      # 全局配置
+      default:
+        loggerLevel: basic
+# 开启/actuator/sentinel端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# 配置rocketmq
+rocketmq:
+  name-server: 127.0.0.1:9876

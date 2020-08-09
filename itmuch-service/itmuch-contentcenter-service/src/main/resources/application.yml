@@ -1,0 +1,84 @@
+#设置编码格式
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  #  设置数据库信息
+  datasource:
+    username: root
+    password: zxc123..
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/content_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  session:
+    store-type: none
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  # spring cloud Alibaba
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        cluster-name: NJ
+    sentinel:
+      filter:
+        # 关闭掉对springMVC端点的保护(true为打开false关闭)。
+        enabled: true
+      transport:
+        # 为内容中心整合sentinel控制台
+        dashboard: localhost:8080
+  application:
+    #服务名称，尽量用中划线 -
+    name: content-center
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    #springboot设置日志级别
+    com.itmuch: debug
+    # feign的日志级别是建立在feign的接口的日志级别是debug的基础上，如果为其他级别，则什么都不会打印
+    com.itmuch.contentcenter.configuration.UserCenterFeignConfiguration: debug
+
+# 配置属性方式细粒度的自定义feign的日志级别
+feign:
+  client:
+    config:
+      # 全局配置
+      default:
+        loggerLevel: basic
+  sentinel:
+    # 为feign整合sentinel
+    enabled: true
+  # 配置feign连接池,使用Apache连接池的时候是httpclient，使用Okhttp时是okhttp
+  httpclient:
+    # 让feign使用Apache httpclient做请求；而不是默认的urlconnection
+    enabled: true
+    # feign 的最大连接数
+    max-connections: 200
+    # feign单个路径的最大连接数
+    max-connections-per-route: 50
+#服务名称
+#user-center:
+#  ribbon:
+#    #做负载均衡的类名：负载均衡规则的类的路径
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+# 开启/actuator/sentinel端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# 配置rocketmq
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    # 小坑：必须指定Group
+    group: test-group
