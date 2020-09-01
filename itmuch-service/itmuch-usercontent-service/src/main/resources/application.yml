@@ -7,10 +7,10 @@ spring:
       force: true
   #  设置数据库信息
   datasource:
-    username: root
-    password: zxc123..
+    username: uniquek
+    password: uKWsMwdrZ3ti
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.114.134.189:3306/user_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://rm-bp18vglnjfop5398l2o.mysql.rds.aliyuncs.com:3306/user_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&serverTimezone=Asia/Shanghai
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

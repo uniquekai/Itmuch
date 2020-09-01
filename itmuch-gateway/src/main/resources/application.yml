@@ -1,0 +1,43 @@
+#设置编码格式
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  session:
+    store-type: none
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  # spring cloud Alibaba
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        cluster-name: BJ
+    gateway:
+      discovery:
+        locator:
+          # 让gateway自动从nacos服务发现组件中找到其他的服务
+          enabled: true
+      routes:
+        - id: after_route
+          uri: lb://user-center
+          predicates:
+            - TimeBetween=上午9:00,下午10:30
+  application:
+    name: gateway-center
+# 开启/actuator/sentinel端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
